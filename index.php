@@ -17,15 +17,7 @@ $app = new Slim\App($configs);
 
 /* ROUTES */
 $app->get('/', function ($request, $response) {
-	$anilist = new anilist();
-	$ani_res = $anilist->search('anime', 'sword');
-echo "ok";
-	foreach ($ani_res as $key => $value) {
-		$input[] = $value['id'].':'.$value['title_romaji'].'<br />';
-	}
-	$final = implode('', $input);
-	echo $final;
-	return $final;
+return 'ok';
 });
 
 $app->get('/anilist/{series_type}/search/{input}', function ($request, $response, $args) {
@@ -82,9 +74,9 @@ $app->post('/', function ($request, $response)
 							$input[] = $value['id'].':'.$value['title_romaji'];
 						}
 
-						$final = implode('', $input);
+						$final = implode('\n', $input);
 
-						$result = $bot->replyText($event['replyToken'], "List of ".$n[1][0].": [ID NUMBER]:[ROMAJI TITLE]".$final.'for more detail please replay with /id [ID NUMBER]');
+						$result = $bot->replyText($event['replyToken'], "List of ".$n[1][0]."\n: [ID NUMBER]:[ROMAJI TITLE]\n".$final."\n".'for more detail please replay with /id [ID NUMBER]');
 				}
 				// or we can use pushMessage() instead to send reply message
 				// $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event['message']['text']);
