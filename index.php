@@ -71,7 +71,7 @@ $app->post('/', function ($request, $response)
 						$ani_res = $anilist->search($n[1][0], $n[3][0]);
 
 						foreach ($ani_res as $key => $value) {
-							$input[] = $value['id'].':'.$value['title_romaji'];
+							$input[] = $value['id'].':'.$value['type'].$value['title_romaji'];
 						}
 
 						$final = implode("\n", $input);
