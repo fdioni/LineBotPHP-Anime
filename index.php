@@ -23,15 +23,13 @@ $app->get('/', function ($request, $response) {
 $app->get('/anilist/{series_type}/search/{input}', function ($request, $response, $args) {
 	$anilist = new anilist();
 	$ani_res = $anilist->search($args['series_type'], $args['input']);
-
+echo "ok";
 	foreach ($ani_res as $key => $value) {
 		$input[] = $value['id'].':'.$value['title_romaji'].'<br />';
 	}
 	$final = implode('', $input);
 	echo $final;
 	return $final;
-
-
 });
 
 $app->post('/', function ($request, $response)
@@ -73,12 +71,12 @@ $app->post('/', function ($request, $response)
 						$ani_res = $anilist->search($n[1][0], $n[3][0]);
 
 						foreach ($ani_res as $key => $value) {
-							$input[] = $value['id'].':'.$value['title_romaji'].\n;
+							$input[] = $value['id'].':'.$value['title_romaji'];
 						}
 
 						$final = implode('', $input);
 
-						$result = $bot->replyText($event['replyToken'], "List of ".$n[1][0].":\n [ID NUMBER]:[ROMAJI TITLE]".$final.\n.'for more detail please replay with /id [ID NUMBER]');
+						$result = $bot->replyText($event['replyToken'], "List of ".$n[1][0].": [ID NUMBER]:[ROMAJI TITLE]".$final.'for more detail please replay with /id [ID NUMBER]');
 				}
 				// or we can use pushMessage() instead to send reply message
 				// $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event['message']['text']);
