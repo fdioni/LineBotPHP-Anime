@@ -17,7 +17,15 @@ $app = new Slim\App($configs);
 
 /* ROUTES */
 $app->get('/', function ($request, $response) {
-	return "OK Lanjut";
+	$anilist = new anilist();
+	$ani_res = $anilist->search('anime', 'sword');
+echo "ok";
+	foreach ($ani_res as $key => $value) {
+		$input[] = $value['id'].':'.$value['title_romaji'].'<br />';
+	}
+	$final = implode('', $input);
+	echo $final;
+	return $final;
 });
 
 $app->get('/anilist/{series_type}/search/{input}', function ($request, $response, $args) {
