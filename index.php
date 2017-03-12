@@ -67,7 +67,7 @@ $app->post('/', function ($request, $response)
 			{
 				// send same message as reply to user
 				//$result = $bot->replyText($event['replyToken'], $event['message']['text']);
-				if(strpos($event['message']['text'], '/anime') !== true){
+				if(strpos($event['message']['text'], '/anime') !== false){
 						preg_match_all("/\/(anime)(\s*)(.*?)(?=\*|$)/",$event['message']['text'],$n);
 
 						$anilist = new anilist();
