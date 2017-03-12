@@ -81,8 +81,6 @@ $app->post('/', function ($request, $response)
 							        $dateend = DateTime::createFromFormat('Ymd', $ani_res['end_date_fuzzy']);
 
 							        $input = array(
-							          '------MAIN INFORMATION------',
-							          '----------------------------',
 							          'Title English: '.$ani_res['title_english'],
 							          'Title Japanese: '.$ani_res['title_japanese'],
 							          'Alternative Title: '.$alt,
@@ -97,7 +95,7 @@ $app->post('/', function ($request, $response)
 
 							$imageMessageBuilder = new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder($ani_res['image_url_lge'],$ani_res['image_url_lge']);
 							$bot->pushMessage($event['source']['userId'], $imageMessageBuilder);
-							$result = $bot->replyText($event['replyToken'], "Detail of [".$ani_res['series_type']."] ".$ani_res['title_romaji'].":\n".$final."\n\n".'karena keterbatasan baris untuk data lebih lengkap silakan akses: https://anilist.co/'.$n[1][0].'/'.$n[3][0]);
+							$result = $bot->replyText($event['replyToken'], "Detail of [".$ani_res['series_type']."] ".$ani_res['title_romaji'].":\n\n".$final."\n\n".'karena keterbatasan untuk menampilkan data, lebih lengkap silakan akses: https://anilist.co/'.$n[1][0].'/'.$n[3][0]);
 
 						} else {
 							$ani_res = $anilist->search($n[1][0], $n[3][0]);
@@ -111,7 +109,7 @@ $app->post('/', function ($request, $response)
 						$ani_res = $anilist->search($n[1][0], $n[3][0]);
 						$result = $bot->replyText($event['replyToken'], "List of ".$n[1][0].":\n [ID NUMBER]:[MEDIA TYPE][ROMAJI TITLE]\n".$ani_rest."\n".'for more detail please replay with /id [ID NUMBER]');
 				}else if(strpos($event['message']['text'], '/help') !== false){
-					$result = $bot->replyText($event['replyToken'], "List of Help Command:\n/anime [title] : search anime based on title\n/anime [number] : show anime details based on ID\n/manga [title] : search manga based on title");
+					$result = $bot->replyText($event['replyToken'], "List of Help Command:\n/anime [title] : search anime based on title\n/anime [number] : show anime details based on ID\n/manga [title] : search manga based on title\n\nThis bot fork from https://github.com/dicodingacademy/SimpleLineBotPHP and modified by ShinDion (fdioni)\n\nAPI Provided by: \n- https://anilist.co \n- https://myanimelist.net/ \n\nThis Bot Line is meant for educational purposes (and just for fun) only");
 				}
 				// or we can use pushMessage() instead to send reply message
 				// $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event['message']['text']);
