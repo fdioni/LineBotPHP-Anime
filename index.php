@@ -73,9 +73,31 @@ $app->post('/', function ($request, $response)
 						if(is_numeric($n[3][0]) === true){
 
 							$ani_res = $anilist->id($n[1][0], $n[3][0]);
+
+
+							        $genres = implode(",", $ani_res['genres']);
+							        $alt = implode(",", $ani_res['synonyms']);
+							        $datestart = DateTime::createFromFormat('Ymd', $ani_res['start_date_fuzzy']);
+							        $dateend = DateTime::createFromFormat('Ymd', $ani_res['end_date_fuzzy']);
+
+							        $input = array(
+							          '------MAIN INFORMATION------',
+							          '----------------------------',
+							          'Title English: '.$ani_res['title_english'],
+							          'Title Japanese: '.$ani_res['title_japanese'],
+							          'Alternative Title: '.$alt,
+							          'Airing Status: '.$ani_res['airing_status'],
+							          'Start Date: '.$datestart->format('d/m/Y'),
+							          'End Date: '.$dateend->format('d/m/Y'),
+							          'Type: '.$ani_res['type'],
+							          'Genre: '.$genres,
+							          'Akan ditambahkan nanti.... capekk'
+							        );
+							        $final = implode("\n", $input);
+
 							$imageMessageBuilder = new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder($ani_res['image_url_lge'],$ani_res['image_url_lge']);
 							$bot->pushMessage($event['source']['userId'], $imageMessageBuilder);
-							$result = $bot->replyText($event['replyToken'], "Detail of [".$ani_res['series_type']."] ".$ani_res['title_romaji'].":\n".$ani_res."\n".'karena keterbatasan baris untuk data lebih lengkap silakan akses: https://anilist.co/'.$n[1][0].'/'.$n[3][0]);
+							$result = $bot->replyText($event['replyToken'], "Detail of [".$ani_res['series_type']."] ".$ani_res['title_romaji'].":\n".$ani_res."\n\n".'karena keterbatasan baris untuk data lebih lengkap silakan akses: https://anilist.co/'.$n[1][0].'/'.$n[3][0]);
 
 						} else {
 							$ani_res = $anilist->search($n[1][0], $n[3][0]);
