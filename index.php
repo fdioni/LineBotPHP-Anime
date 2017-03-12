@@ -66,7 +66,7 @@ $app->post('/', function ($request, $response)
 			{
 				// send same message as reply to user
 				//$result = $bot->replyText($event['replyToken'], $event['message']['text']);
-				if(strpos($event['message']['text'], '/anime') === true){
+				if(strpos($event['message']['text'], '/anime') !== true){
 						preg_match_all("/\/(anime)\s*(.*?)(?=\*|$)/",$event['message']['text'],$n);
 
 						$anilist = new anilist();
@@ -75,6 +75,7 @@ $app->post('/', function ($request, $response)
 						foreach ($ani_res as $key => $value) {
 							$input[] = $value['id'].':'.$value['title_romaji'].'<br />';
 						}
+
 						$final = implode('', $input);
 
 						$result = $bot->replyText($event['replyToken'], "List of ".$n[1].":<br /> [ID NUMBER]:[ROMAJI TITLE]".$final.'for more detail please replay with /id [ID NUMBER]');
