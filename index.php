@@ -23,13 +23,16 @@ return 'ok';
 $app->get('/anilist/{series_type}/search/{input}', function ($request, $response, $args) {
 	$anilist = new anilist();
 	$ani_res = $anilist->search($args['series_type'], $args['input']);
-echo "ok";
-	foreach ($ani_res as $key => $value) {
-		$input[] = $value['id'].':'.$value['title_romaji'].'<br />';
-	}
-	$final = implode('', $input);
-	echo $final;
-	return $final;
+//echo "ok";
+	return $ani_res;
+});
+
+$app->get('/anilist/{series_type}/id/{input}', function ($request, $response, $args) {
+	$anilist = new anilist();
+	$ani_res = $anilist->id($args['series_type'], $args['input']);
+//echo "ok";
+print_r($ani_res);
+	return $ani_res;
 });
 
 $app->post('/', function ($request, $response)
@@ -70,7 +73,9 @@ $app->post('/', function ($request, $response)
 						if(is_numeric($n[3][0]) === true){
 
 							$ani_res = $anilist->id($n[1][0], $n[3][0]);
-							$result = $bot->replyText($event['replyToken'], "Detail of [".$ani_res['media_type']."] ".$ani_res['title_romaji'].":\n [ID NUMBER]:[MEDIA TYPE][ROMAJI TITLE]\n".$ani_res."\n".'karena keterbatasan baris untuk data lebih lengkap silakan akses: https://anilist.co/'.$n[1][0].'/'.$n[3][0].);
+							$imageMessageBuilder = new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder($ani_res['image_url_lge'],$ani_res['image_url_lge']);
+							$bot->replyText($event['replyToken'],$imageMessageBuilder);
+							$result = $bot->replyText($event['replyToken'], "Detail of [".$ani_res['media_type']."] ".$ani_res['title_romaji'].":\n".$ani_res."\n".'karena keterbatasan baris untuk data lebih lengkap silakan akses: https://anilist.co/'.$n[1][0].'/'.$n[3][0]);
 
 						} else {
 							$ani_res = $anilist->search($n[1][0], $n[3][0]);
@@ -80,10 +85,8 @@ $app->post('/', function ($request, $response)
 				}
 				else if(strpos($event['message']['text'], '/manga') !== false){
 						preg_match_all("/\/(manga)(\s*)(.*?)(?=\*|$)/",$event['message']['text'],$n);
-
 						$anilist = new anilist();
 						$ani_res = $anilist->search($n[1][0], $n[3][0]);
-
 						$result = $bot->replyText($event['replyToken'], "List of ".$n[1][0].":\n [ID NUMBER]:[MEDIA TYPE][ROMAJI TITLE]\n".$ani_rest."\n".'for more detail please replay with /id [ID NUMBER]');
 				}
 				// or we can use pushMessage() instead to send reply message
@@ -95,6 +98,13 @@ $app->post('/', function ($request, $response)
 		}
 	}
 
+});
+
+/*$app->get('/anilist/{series_type}/images/{id}', function ($request, $response, $args) {
+	$anilist = new anilist();
+	$ani_res = $anilist->id($args['series_type'], $args['id']);
+
+	return $ani_res['image_url_lge'];
 });
 
 // $app->get('/push/{to}/{message}', function ($request, $response, $args)

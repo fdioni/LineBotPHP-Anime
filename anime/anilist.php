@@ -75,7 +75,7 @@ class Anilist
         $auth = $this->auth();
         $access_token = $auth['access_token'];
         //Set the sub Url
-        $sub_url=$series_type."/".$series_type."/".$id;
+        $sub_url=$series_type."/".$id;
 
         //Set Header for cURL
         //$headers =array();
