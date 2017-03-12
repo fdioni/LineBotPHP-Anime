@@ -17,8 +17,7 @@ $app = new Slim\App($configs);
 
 /* ROUTES */
 $app->get('/', function ($request, $response) {
-	$anilist = new anilist();
-	return $anilist->auth();
+	return "OK Lanjut";
 });
 
 $app->get('/anilist/{series_type}/search/{input}', function ($request, $response, $args) {
