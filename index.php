@@ -75,7 +75,7 @@ $app->post('/', function ($request, $response)
 							$ani_res = $anilist->id($n[1][0], $n[3][0]);
 							$imageMessageBuilder = new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder($ani_res['image_url_lge'],$ani_res['image_url_lge']);
 							$bot->pushMessage($event['source']['userId'], $imageMessageBuilder);
-							$result = $bot->replyText($event['replyToken'], "Detail of [".$ani_res['series_type']."] ".$ani_res['title_romaji'].":\n".print_r($ani_res)."\n".'karena keterbatasan baris untuk data lebih lengkap silakan akses: https://anilist.co/'.$n[1][0].'/'.$n[3][0]);
+							$result = $bot->replyText($event['replyToken'], "Detail of [".$ani_res['series_type']."] ".$ani_res['title_romaji'].":\n".$ani_res."\n".'karena keterbatasan baris untuk data lebih lengkap silakan akses: https://anilist.co/'.$n[1][0].'/'.$n[3][0]);
 
 						} else {
 							$ani_res = $anilist->search($n[1][0], $n[3][0]);
@@ -88,6 +88,8 @@ $app->post('/', function ($request, $response)
 						$anilist = new anilist();
 						$ani_res = $anilist->search($n[1][0], $n[3][0]);
 						$result = $bot->replyText($event['replyToken'], "List of ".$n[1][0].":\n [ID NUMBER]:[MEDIA TYPE][ROMAJI TITLE]\n".$ani_rest."\n".'for more detail please replay with /id [ID NUMBER]');
+				}else if(strpos($event['message']['text'], '/help') !== false){
+					$result = $bot->replyText($event['replyToken'], "List of Help Command:\n/anime [title] : search anime based on title\n/anime [number] : show anime details based on ID\n/manga [title] : search manga based on title");
 				}
 				// or we can use pushMessage() instead to send reply message
 				// $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event['message']['text']);

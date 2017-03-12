@@ -92,7 +92,27 @@ class Anilist
         //print_r($result);
         curl_close($ch);
 
-        return $result;
+        $genres = implode("\n", $result['genres']);
+        $alt = implode("\n", $result['synonyms']);
+        $datestart = DateTime::createFromFormat('Ymd', $result['start_date_fuzzy']);
+        $dateend = DateTime::createFromFormat('Ymd', $result['end_date_fuzzy']);
+
+        $input = array(
+          '------MAIN INFORMATION------',
+          '----------------------------',
+          'Title English: '.$result['title_english'],
+          'Title Japanese: '.$result['title_japanese'],
+          'Alternative Title: '.$alt,
+          'Airing Status: '.$result['airing_status'],
+          'Start Date: '.$datestart->format('d/m/Y'),
+          'End Date: '.$dateend->format('d/m/Y'),
+          'Type: '.$result['type'],
+          'Genre: '.$genres,
+          'Akan ditambahkan nanti.... capekk'
+        );
+        $final = implode("\n", $input);
+
+        return $final;
     }
 
 }
