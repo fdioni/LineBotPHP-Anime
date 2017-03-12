@@ -94,7 +94,11 @@ $app->post('/', function ($request, $response)
 							        $final = implode("\n", $input);
 
 							$imageMessageBuilder = new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder($ani_res['image_url_lge'],$ani_res['image_url_lge']);
+							if(isset($event['source']['groupId']) == TRUE){
+								$bot->pushMessage($event['source']['groupId'], $imageMessageBuilder);
+							} else {
 							$bot->pushMessage($event['source']['userId'], $imageMessageBuilder);
+						}
 							$result = $bot->replyText($event['replyToken'], "Detail of [".$ani_res['series_type']."] ".$ani_res['title_romaji'].":\n\n".$final."\n\n".'karena keterbatasan untuk menampilkan data, lebih lengkap silakan akses: https://anilist.co/'.$n[1][0].'/'.$n[3][0]);
 
 						} else {
