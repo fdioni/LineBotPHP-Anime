@@ -28,7 +28,8 @@ $app->get('/anilist/{series_type}/search/{input}', function ($request, $response
 	foreach ($ani_res as $key => $value) {
 		$input[] = $value['id'].':'.$value['title_romaji'].'<br />';
 	}
-	echo implode('', $input);
+	$final = implode('', $input);
+	echo $final;
 	return $final;
 
 
@@ -67,10 +68,10 @@ $app->post('/', function ($request, $response)
 				// send same message as reply to user
 				//$result = $bot->replyText($event['replyToken'], $event['message']['text']);
 				if(strpos($event['message']['text'], '/anime') !== true){
-						preg_match_all("/\/(anime)\s*(.*?)(?=\*|$)/",$event['message']['text'],$n);
+						preg_match_all("/\/(anime)(\s*)(.*?)(?=\*|$)/",$event['message']['text'],$n);
 
 						$anilist = new anilist();
-						$ani_res = $anilist->search($n[1], $n[2]);
+						$ani_res = $anilist->search($n[1][0], $n[3][0]);
 
 						foreach ($ani_res as $key => $value) {
 							$input[] = $value['id'].':'.$value['title_romaji'].'<br />';
@@ -78,7 +79,7 @@ $app->post('/', function ($request, $response)
 
 						$final = implode('', $input);
 
-						$result = $bot->replyText($event['replyToken'], "List of ".$n[1].":<br /> [ID NUMBER]:[ROMAJI TITLE]".$final.'for more detail please replay with /id [ID NUMBER]');
+						$result = $bot->replyText($event['replyToken'], "List of ".$n[1][0].":<br /> [ID NUMBER]:[ROMAJI TITLE]".$final.'for more detail please replay with /id [ID NUMBER]');
 				}
 				// or we can use pushMessage() instead to send reply message
 				// $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event['message']['text']);
