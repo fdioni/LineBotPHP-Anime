@@ -64,14 +64,28 @@ $app->post('/', function ($request, $response)
 			{
 				// send same message as reply to user
 				//$result = $bot->replyText($event['replyToken'], $event['message']['text']);
-				if(strpos($event['message']['text'], '/anime') !== true){
+				if(strpos($event['message']['text'], '/anime') !== false){
 						preg_match_all("/\/(anime)(\s*)(.*?)(?=\*|$)/",$event['message']['text'],$n);
 
 						$anilist = new anilist();
 						$ani_res = $anilist->search($n[1][0], $n[3][0]);
 
 						foreach ($ani_res as $key => $value) {
-							$input[] = $value['id'].':'.'['.$value['type'].']'.$value['title_romaji'];
+							$input[] = $value['id'].' : '.'['.$value['type'].'] '.$value['title_romaji'];
+						}
+
+						$final = implode("\n", $input);
+
+						$result = $bot->replyText($event['replyToken'], "List of ".$n[1][0].":\n [ID NUMBER]:[MEDIA TYPE][ROMAJI TITLE]\n".$final."\n".'for more detail please replay with /id [ID NUMBER]');
+				}
+				else if(strpos($event['message']['text'], '/manga') !== false){
+						preg_match_all("/\/(manga)(\s*)(.*?)(?=\*|$)/",$event['message']['text'],$n);
+
+						$anilist = new anilist();
+						$ani_res = $anilist->search($n[1][0], $n[3][0]);
+
+						foreach ($ani_res as $key => $value) {
+							$input[] = $value['id'].' : '.'['.$value['type'].'] '.$value['title_romaji'];
 						}
 
 						$final = implode("\n", $input);
