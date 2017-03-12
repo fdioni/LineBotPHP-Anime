@@ -66,17 +66,17 @@ $app->post('/', function ($request, $response)
 				//$result = $bot->replyText($event['replyToken'], $event['message']['text']);
 				if(strpos($event['message']['text'], '/anime') !== false){
 						preg_match_all("/\/(anime)(\s*)(.*?)(?=\*|$)/",$event['message']['text'],$n);
-
 						$anilist = new anilist();
-						$ani_res = $anilist->search($n[1][0], $n[3][0]);
+						if(is_numeric($n[3][0]) === true){
 
-						foreach ($ani_res as $key => $value) {
-							$input[] = $value['id'].' : '.'['.$value['type'].'] '.$value['title_romaji'];
+							$ani_res = $anilist->id($n[1][0], $n[3][0]);
+							$result = $bot->replyText($event['replyToken'], "Detail of [".$ani_res['media_type']."] ".$ani_res['title_romaji'].":\n [ID NUMBER]:[MEDIA TYPE][ROMAJI TITLE]\n".$ani_res."\n".'karena keterbatasan baris untuk data lebih lengkap silakan akses: https://anilist.co/'.$n[1][0].'/'.$n[3][0].);
+
+						} else {
+							$ani_res = $anilist->search($n[1][0], $n[3][0]);
+							$result = $bot->replyText($event['replyToken'], "List of ".$n[1][0].":\n [ID NUMBER]:[MEDIA TYPE][ROMAJI TITLE]\n".$ani_res."\n".'for more detail please replay with /anime [ID NUMBER]');
 						}
 
-						$final = implode("\n", $input);
-
-						$result = $bot->replyText($event['replyToken'], "List of ".$n[1][0].":\n [ID NUMBER]:[MEDIA TYPE][ROMAJI TITLE]\n".$final."\n".'for more detail please replay with /id [ID NUMBER]');
 				}
 				else if(strpos($event['message']['text'], '/manga') !== false){
 						preg_match_all("/\/(manga)(\s*)(.*?)(?=\*|$)/",$event['message']['text'],$n);
@@ -84,13 +84,7 @@ $app->post('/', function ($request, $response)
 						$anilist = new anilist();
 						$ani_res = $anilist->search($n[1][0], $n[3][0]);
 
-						foreach ($ani_res as $key => $value) {
-							$input[] = $value['id'].' : '.'['.$value['type'].'] '.$value['title_romaji'];
-						}
-
-						$final = implode("\n", $input);
-
-						$result = $bot->replyText($event['replyToken'], "List of ".$n[1][0].":\n [ID NUMBER]:[MEDIA TYPE][ROMAJI TITLE]\n".$final."\n".'for more detail please replay with /id [ID NUMBER]');
+						$result = $bot->replyText($event['replyToken'], "List of ".$n[1][0].":\n [ID NUMBER]:[MEDIA TYPE][ROMAJI TITLE]\n".$ani_rest."\n".'for more detail please replay with /id [ID NUMBER]');
 				}
 				// or we can use pushMessage() instead to send reply message
 				// $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event['message']['text']);

@@ -62,6 +62,37 @@ class Anilist
         //print_r($result);
         curl_close($ch);
 
+        foreach ($result as $key => $value) {
+          $input[] = $value['id'].' : '.'['.$value['type'].'] '.$value['title_romaji'];
+        }
+
+        $final = implode("\n", $input);
+        return $final;
+    }
+    public function id($series_type, $id)
+    {
+        //Get Client Credentials
+        $auth = $this->auth();
+        $access_token = $auth['access_token'];
+        //Set the sub Url
+        $sub_url=$series_type."/".$series_type."/".$id;
+
+        //Set Header for cURL
+        //$headers =array();
+        $headers[] = 'Authorization: Bearer '.$access_token;
+        //open connection
+        $ch = curl_init();
+
+        //set the url
+        curl_setopt($ch, CURLOPT_URL, $this->url.$sub_url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        $result = json_decode(curl_exec($ch), TRUE);
+        //print_r($result);
+        curl_close($ch);
+
         return $result;
     }
+
 }
