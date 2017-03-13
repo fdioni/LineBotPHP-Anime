@@ -103,6 +103,7 @@ $app->post('/', function ($request, $response)
 
 						} else {
 							$ani_res = $anilist->search($n[1][0], $n[3][0]);
+
 							$result = $bot->replyText($event['replyToken'], "List of ".$n[1][0].":\n [ID NUMBER]:[MEDIA TYPE][ROMAJI TITLE]\n".$ani_res."\n".'for more detail please replay with /anime [ID NUMBER]');
 						}
 
@@ -110,8 +111,12 @@ $app->post('/', function ($request, $response)
 				else if(strpos($event['message']['text'], '/manga') !== false){
 						preg_match_all("/\/(manga)(\s*)(.*?)(?=\*|$)/",$event['message']['text'],$n);
 						$anilist = new anilist();
+						if(is_numeric($n[3][0]) === true){
+						} else {
 						$ani_res = $anilist->search($n[1][0], $n[3][0]);
 						$result = $bot->replyText($event['replyToken'], "List of ".$n[1][0].":\n [ID NUMBER]:[MEDIA TYPE][ROMAJI TITLE]\n".$ani_rest."\n".'for more detail please replay with /id [ID NUMBER]');
+					}
+
 				}else if(strpos($event['message']['text'], '/help') !== false){
 					$result = $bot->replyText($event['replyToken'], "List of Help Command:\n/anime [title] : search anime based on title\n/anime [number] : show anime details based on ID\n/manga [title] : search manga based on title\n\nThis bot fork from https://github.com/dicodingacademy/SimpleLineBotPHP and modified by ShinDion (fdioni)\n\nAPI Provided by: \n- https://anilist.co \n- https://myanimelist.net/ \n\nThis Bot Line is meant for educational purposes (and just for fun) only");
 				}else if(strpos($event['message']['text'], '/out') !== false){
