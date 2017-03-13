@@ -40,12 +40,17 @@ $app->get('/anilist/{series_type}/id/{input}', function ($request, $response, $a
 	}else{
 	$dateend = DateTime::createFromFormat('Ymd', $ani_res['end_date_fuzzy'])->format('d/m/Y');
 	}
+	if (array_key_exists('airing_status', $ani_res)) {
+    $status= 'Airing Status: '.$ani_res['airing_status'];
+} else {
+	$status= 'Publishing Status: '.$ani_res['publishing_status'];
+}
 
 	$input = array(
 		'Title English: '.$ani_res['title_english'],
 		'Title Japanese: '.$ani_res['title_japanese'],
 		'Alternative Title: '.$alt,
-		'Airing Status: '.$ani_res['airing_status'],
+		$status,
 		'Start Date: '.$datestart,
 		'End Date: '.$dateend,
 		'Type: '.$ani_res['type'],
