@@ -104,7 +104,7 @@ $app->post('/', function ($request, $response)
 						} else {
 							$ani_res = $anilist->search($n[1][0], $n[3][0]);
 
-							$result = $bot->replyText($event['replyToken'], "List of ".$n[1][0].":\n [ID NUMBER]:[MEDIA TYPE][ROMAJI TITLE]\n".$ani_res."\n".'for more detail please replay with /anime [ID NUMBER]');
+							$result = $bot->replyText($event['replyToken'], "List of ".$n[1][0].":\n [ID NUMBER]:[MEDIA TYPE][ROMAJI TITLE]\n".$ani_res."\n".'for more detail please replay with /'.$n[1][0].' [ID NUMBER]');
 						}
 
 				}
