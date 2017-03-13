@@ -114,7 +114,7 @@ $app->post('/', function ($request, $response)
 						if(is_numeric($n[3][0]) === true){
 						} else {
 						$ani_res = $anilist->search($n[1][0], $n[3][0]);
-						$result = $bot->replyText($event['replyToken'], "List of ".$n[1][0]."for ".$n[3][0]." :\n [ID NUMBER]:[MEDIA TYPE][ROMAJI TITLE]\n".$ani_rest."\n".'for more detail please replay with /id [ID NUMBER]');
+						$result = $bot->replyText($event['replyToken'], "List of ".$n[1][0].":\n [ID NUMBER]:[MEDIA TYPE][ROMAJI TITLE]\n".$ani_res."\n".'for more detail please replay with /id [ID NUMBER]');
 					}
 
 				}else if(strpos($event['message']['text'], '/help') !== false){
