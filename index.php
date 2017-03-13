@@ -31,8 +31,30 @@ $app->get('/anilist/{series_type}/id/{input}', function ($request, $response, $a
 	$anilist = new anilist();
 	$ani_res = $anilist->id($args['series_type'], $args['input']);
 //echo "ok";
-print_r($ani_res);
-	return $ani_res;
+
+	$genres = implode(",", $ani_res['genres']);
+	$alt = implode(",", $ani_res['synonyms']);
+	$datestart = DateTime::createFromFormat('Ymd', $ani_res['start_date_fuzzy'])->format('d/m/Y');
+	if(empty($ani_res['end_date_fuzzy'])){
+		$dateend = '';
+	}else{
+	$dateend = DateTime::createFromFormat('Ymd', $ani_res['end_date_fuzzy'])->format('d/m/Y');
+	}
+
+	$input = array(
+		'Title English: '.$ani_res['title_english'],
+		'Title Japanese: '.$ani_res['title_japanese'],
+		'Alternative Title: '.$alt,
+		'Airing Status: '.$ani_res['airing_status'],
+		'Start Date: '.$datestart,
+		'End Date: '.$dateend,
+		'Type: '.$ani_res['type'],
+		'Genre: '.$genres,
+		'Akan ditambahkan nanti.... capekk'
+	);
+	$final = implode("\n", $input);
+
+		return $final;
 });
 
 $app->post('/', function ($request, $response)
@@ -94,6 +116,7 @@ $app->post('/', function ($request, $response)
 							        $final = implode("\n", $input);
 
 							$imageMessageBuilder = new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder($ani_res['image_url_lge'],$ani_res['image_url_lge']);
+
 							if(isset($event['source']['groupId']) === TRUE){
 								$bot->pushMessage($event['source']['groupId'], $imageMessageBuilder);
 							} else {
