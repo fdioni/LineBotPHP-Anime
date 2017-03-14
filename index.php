@@ -27,7 +27,7 @@ $app->get('/anilist/{series_type}/search/{input}', function ($request, $response
 	return $ani_res;
 });
 
-$app->get('/anilist/{series_type}/id/{input}', function ($request, $response, $args) {
+/*$app->get('/anilist/{series_type}/id/{input}', function ($request, $response, $args) {
 	$anilist = new anilist();
 	$ani_res = $anilist->id($args['series_type'], $args['input']);
 //echo "ok";
@@ -60,7 +60,7 @@ $app->get('/anilist/{series_type}/id/{input}', function ($request, $response, $a
 	$final = implode("\n", $input);
 
 		return $final;
-});
+});*/
 
 $app->post('/', function ($request, $response)
 {
