@@ -1,13 +1,12 @@
 # LineBotPHP-Anime
 
+LineBotPHP-Anime is a PHP Web Based LINE chat Bot.
+
 
 API Provided by: 
  - [AniList](https://anilist.co)
  - [MyAnimeList](https://myanimelist.net/)
  - More Anime Source API
-
-
-LineBotPHP-Anime is a PHP Web Based LINE chat Bot.
 
 ### Tech
 
