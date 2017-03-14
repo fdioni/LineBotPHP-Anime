@@ -100,34 +100,44 @@ $app->post('/', function ($request, $response)
 						if(is_numeric($n[3][0]) === true){
 
 							$ani_res = $anilist->id($n[1][0], $n[3][0]);
+							$genres = implode(",", $ani_res['genres']);
+							$alt = implode(",", $ani_res['synonyms']);
+							$datestart = DateTime::createFromFormat('Ymd', $ani_res['start_date_fuzzy']);
+							if(empty($ani_res['end_date_fuzzy'])){
+								$dateend = '';
+							}else{
+							$dateend = DateTime::createFromFormat('Ymd', $ani_res['end_date_fuzzy'])->format('d/m/Y');
+							}
 
-
-							        $genres = implode(",", $ani_res['genres']);
-							        $alt = implode(",", $ani_res['synonyms']);
-							        $datestart = DateTime::createFromFormat('Ymd', $ani_res['start_date_fuzzy']);
-
-											if(empty($ani_res['end_date_fuzzy'])){
-												$dateend = '';
-											}else{
-											$dateend = DateTime::createFromFormat('Ymd', $ani_res['end_date_fuzzy'])->format('d/m/Y');
-											}
+							$input = array(
+								'ID: '.$ani_res['id'],
+								'Title Romaji : '.$ani_res['title_romaji'],
+								'Title English: '.$ani_res['title_english'],
+								'Title Japanese: '.$ani_res['title_japanese'],
+								'Alternative Title: '.$alt,
+							);
 											if (array_key_exists('airing_status', $ani_res)) {
-										    $status= 'Airing Status: '.$ani_res['airing_status'];
+												array_push($input,[
+										    'Airing Status: '.$ani_res['airing_status'],
+												'Total Episodes: '.$ani_res['total_episodes'],
+												$anime_source ='Source: '.$ani_res['source'],
+												$anime_dur ='Source: '.$ani_res['duration'],
+												]);
 										} else {
-											$status= 'Publishing Status: '.$ani_res['publishing_status'];
+											array_push($input,[
+											'Publishing Status: '.$ani_res['publishing_status'],
+											'Total Chapters: '.$ani_res['total_chapters'],
+											'Total Chapters: '.$ani_res['total_volumes'],
+											]);
 										}
 
-							        $input = array(
-							          'Title English: '.$ani_res['title_english'],
-							          'Title Japanese: '.$ani_res['title_japanese'],
-							          'Alternative Title: '.$alt,
-							          $status,
-							          'Start Date: '.$datestart->format('d/m/Y'),
-							          'End Date: '.$dateend,
-							          'Type: '.$ani_res['type'],
-							          'Genre: '.$genres,
-							          'Akan ditambahkan nanti.... capekk'
-							        );
+										array_push($input,['Type: '.$ani_res['type'],
+								      'Start Date: '.$datestart->format('d/m/Y'),
+								      'End Date: '.$dateend,
+								      'Genre: '.$genres,
+											'Description:'.$ani_res['description'],
+									]);
+
 							        $final = implode("\n", $input);
 
 							$imageMessageBuilder = new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder($ani_res['image_url_lge'],$ani_res['image_url_lge']);
