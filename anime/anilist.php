@@ -4,20 +4,25 @@
  * url: https://anilist.co/api/
  *
  */
+
+require __DIR__ . '../../vendor/autoload.php';
 class Anilist
 {
+
     private $url = "https://anilist.co/api/";
   /**
    * POST: auth/access_token
    */
     private function auth()
     {
+      $dotenv = new Dotenv\Dotenv(__DIR__.'../../');
+      $dotenv->load();
         //defined all variable needed
         $sub_url="auth/access_token";
         $fields= array(
         'grant_type' => "client_credentials",
-        'client_id' =>  "tanyanime-5wk5u",
-        'client_secret' =>  "ZU7dOga6KbeXMu5HYyIcMq",
+        'client_id' =>  $_ENV['ANILIST_CLIENT_ID'],
+        'client_secret' => $_ENV['ANILIST_CLIENT_SECRET'],
       );
 
       //open connection

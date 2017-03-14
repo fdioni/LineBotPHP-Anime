@@ -34,7 +34,11 @@ $app->get('/anilist/{series_type}/search/{input}', function ($request, $response
 
 	$genres = implode(",", $ani_res['genres']);
 	$alt = implode(",", $ani_res['synonyms']);
+	if(empty($ani_res['start_date_fuzzy'])){
+		$datestart = '';
+	}else{
 	$datestart = DateTime::createFromFormat('Ymd', $ani_res['start_date_fuzzy'])->format('d/m/Y');
+	}
 	if(empty($ani_res['end_date_fuzzy'])){
 		$dateend = '';
 	}else{
@@ -100,8 +104,9 @@ $app->post('/', function ($request, $response)
 						if(is_numeric($n[3][0]) === true){
 
 							$ani_res = $anilist->id($n[1][0], $n[3][0]);
-							$genres = implode(",", $ani_res['genres']);
-							$alt = implode(",", $ani_res['synonyms']);
+
+							$genres = implode(", ", $ani_res['genres']);
+							$alt = implode(", ", $ani_res['synonyms']);
 							$datestart = DateTime::createFromFormat('Ymd', $ani_res['start_date_fuzzy']);
 							if(empty($ani_res['end_date_fuzzy'])){
 								$dateend = '';
@@ -135,7 +140,7 @@ $app->post('/', function ($request, $response)
 								      'Start Date: '.$datestart->format('d/m/Y'),
 								      'End Date: '.$dateend,
 								      'Genre: '.$genres,
-											'Description:'.$ani_res['description']
+											'Description: '.$ani_res['description']
 									);
 
 							        $final = implode("\n", $input);
