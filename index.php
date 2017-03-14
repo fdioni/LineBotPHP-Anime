@@ -166,7 +166,7 @@ $app->post('/', function ($request, $response)
 
 				}
 				else if(strpos($event['message']['text'], '/help') !== false){
-					$result = $bot->replyText($event['replyToken'], "List of Help Command:\n/anime [title] : search anime based on title\n/anime [number] : show anime details based on ID\n/manga [title] : search manga based on title\n/manga [number] : show manga details based on ID\n/manga [title] : search manga and anime based on title\n\nThis bot fork from https://github.com/dicodingacademy/SimpleLineBotPHP and modified by ShinDion (fdioni)\n\nAPI Provided by: \n- https://anilist.co \n- https://myanimelist.net/ \n\nThis Bot Line is meant for educational purposes (and just for fun) only");
+					$result = $bot->replyText($event['replyToken'], "List of Help Command:\n/anime [title] : search anime based on title\n/anime [number] : show anime details based on ID\n/manga [title] : search manga based on title\n/manga [number] : show manga details based on ID\n/all [title] : search manga and anime based on title\n\nThis bot fork from https://github.com/dicodingacademy/SimpleLineBotPHP and modified by ShinDion (fdioni)\n\nAPI Provided by: \n- https://anilist.co \n- https://myanimelist.net/ \n\nThis Bot Line is meant for educational purposes (and just for fun) only");
 				}else if(strpos($event['message']['text'], '/out') !== false){
 					if(isset($event['source']['groupId']) == TRUE){
 					$bot->replyText($event['replyToken'], "Terima kasih telah mengundang saya di Grup ini");
