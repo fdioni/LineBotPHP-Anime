@@ -114,30 +114,29 @@ $app->post('/', function ($request, $response)
 								'Title Romaji : '.$ani_res['title_romaji'],
 								'Title English: '.$ani_res['title_english'],
 								'Title Japanese: '.$ani_res['title_japanese'],
-								'Alternative Title: '.$alt,
+								'Alternative Title: '.$alt
 							);
 											if (array_key_exists('airing_status', $ani_res)) {
-												array_merge($input,array(
-										    'Airing Status: '.$ani_res['airing_status'],
-												'Total Episodes: '.$ani_res['total_episodes'],
-												'Source: '.$ani_res['source'],
-												'Source: '.$ani_res['duration'],
-											));
+												array_push($input, 'Airing Status: '.$ani_res['airing_status'],
+																						'Total Episodes: '.$ani_res['total_episodes'],
+																						'Source: '.$ani_res['source'],
+																						'Source: '.$ani_res['duration']
+																	);
 										} else {
-											array_push($input,array(
+											array_push($input,
 											'Publishing Status: '.$ani_res['publishing_status'],
 											'Total Chapters: '.$ani_res['total_chapters'],
-											'Total Chapters: '.$ani_res['total_volumes'],
-										));
+											'Total Chapters: '.$ani_res['total_volumes']
+										);
 										}
 
-										array_push($input,array(
+										array_push($input,
 											'Type: '.$ani_res['type'],
 								      'Start Date: '.$datestart->format('d/m/Y'),
 								      'End Date: '.$dateend,
 								      'Genre: '.$genres,
-											'Description:'.$ani_res['description'],
-									));
+											'Description:'.$ani_res['description']
+									);
 
 							        $final = implode("\n", $input);
 
