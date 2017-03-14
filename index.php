@@ -121,7 +121,7 @@ $app->post('/', function ($request, $response)
 							          'Title English: '.$ani_res['title_english'],
 							          'Title Japanese: '.$ani_res['title_japanese'],
 							          'Alternative Title: '.$alt,
-							          'Airing Status: '.$ani_res['airing_status'],
+							          $status,
 							          'Start Date: '.$datestart->format('d/m/Y'),
 							          'End Date: '.$dateend->format('d/m/Y'),
 							          'Type: '.$ani_res['type'],
@@ -153,6 +153,8 @@ $app->post('/', function ($request, $response)
 					$bot->replyText($event['replyToken'], "Terima kasih telah mengundang saya di Grup ini");
 					$result = $bot->leaveGroup($event['source']['groupId']);
 				}
+			}else{
+				$result=$bot->replyText($event['replyToken'], "Command Not Found");
 			}
 				// or we can use pushMessage() instead to send reply message
 				// $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event['message']['text']);
