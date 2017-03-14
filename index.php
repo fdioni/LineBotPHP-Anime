@@ -64,7 +64,7 @@ $app->get('/anilist/{series_type}/id/{input}', function ($request, $response, $a
 	$final = implode("\n", $input);
 
 		return $final;
-}); 
+});
 
 $app->post('/', function ($request, $response)
 {
@@ -166,14 +166,16 @@ $app->post('/', function ($request, $response)
 
 				}
 				else if(strpos($event['message']['text'], '/help') !== false){
-					$result = $bot->replyText($event['replyToken'], "List of Help Command:\n/anime [title] : search anime based on title\n/anime [number] : show anime details based on ID\n/manga [title] : search manga based on title\n/manga [number] : show manga details based on ID\n\nThis bot fork from https://github.com/dicodingacademy/SimpleLineBotPHP and modified by ShinDion (fdioni)\n\nAPI Provided by: \n- https://anilist.co \n- https://myanimelist.net/ \n\nThis Bot Line is meant for educational purposes (and just for fun) only");
+					$result = $bot->replyText($event['replyToken'], "List of Help Command:\n/anime [title] : search anime based on title\n/anime [number] : show anime details based on ID\n/manga [title] : search manga based on title\n/manga [number] : show manga details based on ID\n/manga [title] : search manga and anime based on title\n\nThis bot fork from https://github.com/dicodingacademy/SimpleLineBotPHP and modified by ShinDion (fdioni)\n\nAPI Provided by: \n- https://anilist.co \n- https://myanimelist.net/ \n\nThis Bot Line is meant for educational purposes (and just for fun) only");
 				}else if(strpos($event['message']['text'], '/out') !== false){
 					if(isset($event['source']['groupId']) == TRUE){
 					$bot->replyText($event['replyToken'], "Terima kasih telah mengundang saya di Grup ini");
 					$result = $bot->leaveGroup($event['source']['groupId']);
 				}
-			}else{
-				//$result=$bot->replyText($event['replyToken'], "Command Not Found");
+			}else if(strpos($event['message']['text'], '/all') !== false){
+				$ani_res_anime = $anilist->search(anime, $n[3][0]);
+				$ani_res_manga = $anilist->search(manga, $n[3][0]);
+				$result = $bot->replyText($event['replyToken'], "List of Anime:\n [ID NUMBER]:[MEDIA TYPE][ROMAJI TITLE]\n".$ani_res_anime."\nfor more detail please replay with /manga [ID NUMBER]\n\n\nList of manga:\n [ID NUMBER]:[MEDIA TYPE][ROMAJI TITLE]\n".$ani_res_manga."\nfor more detail please replay with /manga [ID NUMBER]");
 			}
 				// or we can use pushMessage() instead to send reply message
 				// $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event['message']['text']);
@@ -186,23 +188,4 @@ $app->post('/', function ($request, $response)
 
 });
 
-/*$app->get('/anilist/{series_type}/images/{id}', function ($request, $response, $args) {
-	$anilist = new anilist();
-	$ani_res = $anilist->id($args['series_type'], $args['id']);
-
-	return $ani_res['image_url_lge'];
-});
-
-// $app->get('/push/{to}/{message}', function ($request, $response, $args)
-// {
-// 	$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient($_ENV['CHANNEL_ACCESS_TOKEN']);
-// 	$bot = new \LINE\LINEBot($httpClient, ['channelSecret' => $_ENV['CHANNEL_SECRET']]);
-
-// 	$textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($args['message']);
-// 	$result = $bot->pushMessage($args['to'], $textMessageBuilder);
-
-// 	return $result->getHTTPStatus() . ' ' . $result->getRawBody();
-// });
-
-/* JUST RUN IT */
 $app->run();
