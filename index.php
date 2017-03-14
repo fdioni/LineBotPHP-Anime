@@ -117,26 +117,27 @@ $app->post('/', function ($request, $response)
 								'Alternative Title: '.$alt,
 							);
 											if (array_key_exists('airing_status', $ani_res)) {
-												array_push($input,[
+												array_merge($input,array(
 										    'Airing Status: '.$ani_res['airing_status'],
 												'Total Episodes: '.$ani_res['total_episodes'],
-												$anime_source ='Source: '.$ani_res['source'],
-												$anime_dur ='Source: '.$ani_res['duration'],
-												]);
+												'Source: '.$ani_res['source'],
+												'Source: '.$ani_res['duration'],
+											));
 										} else {
-											array_push($input,[
+											array_push($input,array(
 											'Publishing Status: '.$ani_res['publishing_status'],
 											'Total Chapters: '.$ani_res['total_chapters'],
 											'Total Chapters: '.$ani_res['total_volumes'],
-											]);
+										));
 										}
 
-										array_push($input,['Type: '.$ani_res['type'],
+										array_push($input,array(
+											'Type: '.$ani_res['type'],
 								      'Start Date: '.$datestart->format('d/m/Y'),
 								      'End Date: '.$dateend,
 								      'Genre: '.$genres,
 											'Description:'.$ani_res['description'],
-									]);
+									));
 
 							        $final = implode("\n", $input);
 
