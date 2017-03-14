@@ -15,7 +15,7 @@ class Anilist
    */
     private function auth()
     {
-      $dotenv = new Dotenv\Dotenv(__DIR__.'../../');
+      $dotenv = new Dotenv\Dotenv('.');
       $dotenv->load();
         //defined all variable needed
         $sub_url="auth/access_token";
