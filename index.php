@@ -105,7 +105,17 @@ $app->post('/', function ($request, $response)
 							        $genres = implode(",", $ani_res['genres']);
 							        $alt = implode(",", $ani_res['synonyms']);
 							        $datestart = DateTime::createFromFormat('Ymd', $ani_res['start_date_fuzzy']);
-							        $dateend = DateTime::createFromFormat('Ymd', $ani_res['end_date_fuzzy']);
+
+											if(empty($ani_res['end_date_fuzzy'])){
+												$dateend = '';
+											}else{
+											$dateend = DateTime::createFromFormat('Ymd', $ani_res['end_date_fuzzy'])->format('d/m/Y');
+											}
+											if (array_key_exists('airing_status', $ani_res)) {
+										    $status= 'Airing Status: '.$ani_res['airing_status'];
+										} else {
+											$status= 'Publishing Status: '.$ani_res['publishing_status'];
+										}
 
 							        $input = array(
 							          'Title English: '.$ani_res['title_english'],
