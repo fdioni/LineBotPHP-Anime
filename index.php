@@ -20,7 +20,7 @@ $app->get('/', function ($request, $response) {
 return 'ok';
 });
 
-/*$app->get('/anilist/{series_type}/search/{input}', function ($request, $response, $args) {
+$app->get('/anilist/{series_type}/search/{input}', function ($request, $response, $args) {
 	$anilist = new anilist();
 	$ani_res = $anilist->search($args['series_type'], $args['input']);
 //echo "ok";
@@ -64,7 +64,7 @@ $app->get('/anilist/{series_type}/id/{input}', function ($request, $response, $a
 	$final = implode("\n", $input);
 
 		return $final;
-}); */
+}); 
 
 $app->post('/', function ($request, $response)
 {
@@ -107,7 +107,11 @@ $app->post('/', function ($request, $response)
 
 							$genres = implode(", ", $ani_res['genres']);
 							$alt = implode(", ", $ani_res['synonyms']);
-							$datestart = DateTime::createFromFormat('Ymd', $ani_res['start_date_fuzzy']);
+							if(empty($ani_res['start_date_fuzzy'])){
+								$datestart = '';
+							}else{
+							$dateend = DateTime::createFromFormat('Ymd', $ani_res['start_date_fuzzy'])->format('d/m/Y');
+							}
 							if(empty($ani_res['end_date_fuzzy'])){
 								$dateend = '';
 							}else{
