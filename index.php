@@ -110,7 +110,7 @@ $app->post('/', function ($request, $response)
 							if(empty($ani_res['start_date_fuzzy'])){
 								$datestart = '';
 							}else{
-							$dateend = DateTime::createFromFormat('Ymd', $ani_res['start_date_fuzzy'])->format('d/m/Y');
+							$datestart = DateTime::createFromFormat('Ymd', $ani_res['start_date_fuzzy'])->format('d/m/Y');
 							}
 							if(empty($ani_res['end_date_fuzzy'])){
 								$dateend = '';
@@ -141,7 +141,7 @@ $app->post('/', function ($request, $response)
 
 										array_push($input,
 											'Type: '.$ani_res['type'],
-								      'Start Date: '.$datestart->format('d/m/Y'),
+								      'Start Date: '.$datestart,
 								      'End Date: '.$dateend,
 								      'Genre: '.$genres,
 											'Description: '.$ani_res['description']
