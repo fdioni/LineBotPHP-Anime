@@ -123,7 +123,7 @@ $app->post('/', function ($request, $response)
 							          'Alternative Title: '.$alt,
 							          $status,
 							          'Start Date: '.$datestart->format('d/m/Y'),
-							          'End Date: '.$dateend->format('d/m/Y'),
+							          'End Date: '.$dateend,
 							          'Type: '.$ani_res['type'],
 							          'Genre: '.$genres,
 							          'Akan ditambahkan nanti.... capekk'
