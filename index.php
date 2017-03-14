@@ -169,7 +169,7 @@ $app->post('/', function ($request, $response)
 					$result = $bot->leaveGroup($event['source']['groupId']);
 				}
 			}else{
-				$result=$bot->replyText($event['replyToken'], "Command Not Found");
+				//$result=$bot->replyText($event['replyToken'], "Command Not Found");
 			}
 				// or we can use pushMessage() instead to send reply message
 				// $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($event['message']['text']);
