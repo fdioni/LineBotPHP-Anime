@@ -174,6 +174,7 @@ $app->post('/', function ($request, $response)
 				}
 			}else if(strpos($event['message']['text'], '/all') !== false){
 				preg_match_all("/\/(all)(\s*)(.*?)(?=\*|$)/",$event['message']['text'],$n);
+				$anilist = new anilist();
 				$ani_res_anime = $anilist->search(anime, $n[3][0]);
 				$ani_res_manga = $anilist->search(manga, $n[3][0]);
 				$result = $bot->replyText($event['replyToken'], "List of Anime:\n [ID NUMBER]:[MEDIA TYPE][ROMAJI TITLE]\n".$ani_res_anime."\nfor more detail please replay with /manga [ID NUMBER]\n\n\nList of manga:\n [ID NUMBER]:[MEDIA TYPE][ROMAJI TITLE]\n".$ani_res_manga."\nfor more detail please replay with /manga [ID NUMBER]");
