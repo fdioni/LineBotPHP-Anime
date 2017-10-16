@@ -1,13 +1,13 @@
 <?php
+namespace app;
+//require __DIR__ . '../../vendor/autoload.php';
+class Anilist
+{
 /**
  * Doc: https://anilist-api.readthedocs.io/en/latest/index.html
  * url: https://anilist.co/api/
  *
  */
-
-require __DIR__ . '../../vendor/autoload.php';
-class Anilist
-{
 
     private $url = "https://anilist.co/api/";
   /**
